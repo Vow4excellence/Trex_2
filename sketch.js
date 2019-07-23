@@ -1,11 +1,22 @@
 var trex, trex_running, trex_collided;
 var ground, invisibleGround, groundImage;
+var cloud,cloudImage;
+var ob1,ob2,ob3,ob4,ob5,ob6,score;
 
 function preload(){
   trex_running = loadAnimation("trex1.png","trex3.png","trex4.png");
   trex_collided = loadImage("trex_collided.png");
   
-  groundImage = loadImage("ground2.png")
+  groundImage = loadImage("ground2.png");
+  
+  cloudImage = loadImage("cloud.png");
+  
+  ob1 = loadImage("obstacle1.png");
+  ob2 = loadImage("obstacle2.png");
+  ob3 = loadImage("obstacle3.png");
+  ob4 = loadImage("obstacle4.png");
+  ob5 = loadImage("obstacle5.png");
+  ob6 = loadImage("obstacle6.png");
 }
 
 function setup() {
@@ -22,10 +33,18 @@ function setup() {
   
   invisibleGround = createSprite(200,190,400,10);
   invisibleGround.visible = false;
+  
+
+  cloudGroup = new Group();
+  
+  score = 0;
 }
 
 function draw() {
-  background(220);
+  background(230);
+  
+  score = score + Math.round(getFrameRate()/60);
+  text("Score: "+score,500,50);
   
   if(keyDown("space")) {
     trex.velocityY = -10;
@@ -38,5 +57,53 @@ function draw() {
   }
   
   trex.collide(invisibleGround);
+  
+  spawnCloud();
+  spawnObstacles();
   drawSprites();
+}
+
+
+function spawnCloud(){
+ if (frameCount%60===0){
+   var cloud=createSprite(600,140,10,10);
+   cloud.velocityX=-4;
+   cloud.y=Math.round(random(110,150));
+   cloud.addImage(cloudImage);
+   cloud.scale=0.5;
+   cloud.lifetime=150;
+   
+   cloud.depth=trex.depth;
+   trex.depth=trex.depth+1;
+   
+   cloudGroup.add(cloud);
+ }
+}
+
+
+function spawnObstacles(){
+ if (frameCount%60===0){
+  var ob=createSprite(600,160,10,10);
+   ob.velocityX=-2;
+   var rand= Math.round(random(1,6));
+   switch(rand){
+   case 1: ob.addImage(ob1);
+     break;
+     case 2: ob.addImage(ob2);
+     break;
+     case 3: ob.addImage(ob3);
+     break;
+     case 4: ob.addImage(ob4);
+     break;
+     case 5: ob.addImage(ob5);
+     break;
+     case 6: ob.addImage(ob6);
+     break;
+     
+     default: break;
+ 
+   }
+   ob.scale=0.5;
+   ob.lifetime=300;
+}
 }
