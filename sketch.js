@@ -37,7 +37,7 @@ function setup() {
   invisibleGround = createSprite(200,190,400,10);
   invisibleGround.visible = false;
   
-
+obstaclesGroup = new Group();
   cloudGroup = new Group();
   
   score = 0;
@@ -66,7 +66,7 @@ function draw() {
   if(obstaclesGroup.isTouching(trex)){
     gameState=END;
   }
-  
+  }
   
   if(gameState === END){
 ground.velocityX = 0;
