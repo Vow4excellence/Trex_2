@@ -1,7 +1,7 @@
 var trex, trex_running, trex_collided;
 var ground, invisibleGround, groundImage;
-var cloud,cloudImage;
-var ob1,ob2,ob3,ob4,ob5,ob6,score;
+var cloud,cloudImage, cloudGroup;
+var ob1,ob2,ob3,ob4,ob5,ob6,score, obstaclesGroup;
 
 function preload(){
   trex_running = loadAnimation("trex1.png","trex3.png","trex4.png");
@@ -58,6 +58,11 @@ function draw() {
   
   trex.collide(invisibleGround);
   
+  if(obstaclesGroup.isTouching(trex)){
+    cloud.velocityX=-4;
+    ob.velocityX=-2;
+  }
+  
   spawnCloud();
   spawnObstacles();
   drawSprites();
@@ -105,5 +110,7 @@ function spawnObstacles(){
    }
    ob.scale=0.5;
    ob.lifetime=300;
+   
+   obstaclesGroup.add(ob);
 }
 }
